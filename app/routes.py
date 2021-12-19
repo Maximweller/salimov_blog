@@ -7,6 +7,7 @@ from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from app.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
+"""Route файл для показания путей"""
 
 @app.route("/")
 @app.route("/home")
@@ -108,6 +109,9 @@ def new_post():
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
+    """Функция, которая показывает саму запись
+    :param post_id: передает номер записи
+    """
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
@@ -115,6 +119,9 @@ def post(post_id):
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
+    """Функция, которая обновляет запись
+    :param post_id: передает номер записи
+    """
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
@@ -135,6 +142,9 @@ def update_post(post_id):
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
+    """Функция, которая удаляет запись
+    :param post_id: передает номер записи
+    """
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
